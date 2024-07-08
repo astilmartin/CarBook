@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container mt-5">
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">BRAND NAME</th>
+                    <th scope="col">BRAND DETAILS</th>
+
+                    <th scope="col">BRAND IMAGE</th>
+                    <th scope="col">EDIT</th>
+                    <th scope="col">DELETE</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for i in data %}
+                  <tr>
+                    <th scope="row"><input type="checkbox"></th>
+                    <td class="tm-product-name">{{i.Name}}</td>
+                    <td>{{i.Details}}</td>
+
+
+                    <td>
+                      <img src="{{i.Image.url}}" height="100px" width="100px">
+                    </td>
+                    <td>
+                      <div class="col-md-3 icon-list-item">
+                        <a href="{% url 'edit_page' proid=i.id %}" class="tm-product-delete-link">
+                        <i class="ik ik-edit tm-product-edit-icon">Edit</i>
+                      </a>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="{% url 'delete_product' proid=i.id %}" class="tm-product-delete-link">
+                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            <a href="{% url 'new_page' %}" class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            <a href="">
+              <button class="btn btn-primary btn-block text-uppercase">
+              Delete selected products
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+  {% for i in messages %}
+    {% if i.tags == 'warning' %}
+      <script>
+        swal('{{i}}','','warning')
+      </script>
+    {% elif i.tags == 'error' %}
+      <script>
+        swal('{{i}}','','error')
+      </script>
+    {% elif i.tags == 'info' %}
+      <script>
+        swal('{{i}}','','info')
+      </script>
+    {% else %}
+      <script>
+        swal('{{i}}','','success')
+      </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+</body>
+</html>
+{% endblock %}
